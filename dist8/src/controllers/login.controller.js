@@ -22,6 +22,9 @@ let LoginController = class LoginController {
     async Login(Username, Password) {
         let allUsers = await this.UsersRepo.find();
         for (let user of allUsers) {
+            if (!user.Username || !user.Password) {
+                throw new rest_1.HttpErrors.Unauthorized('invalid credentials');
+            }
             if (user.getUsername() == Username) {
                 if (user.getPassword() == Password) {
                     return "Login Sucessful!";
@@ -31,14 +34,14 @@ let LoginController = class LoginController {
                 }
             }
             else {
-                return user.getUsername() + " " + Username /*"Username not found"*/;
+                return "User not Found";
             }
         }
         throw new rest_1.HttpErrors.NotFound("Sorry, User not found");
     }
 };
 __decorate([
-    rest_1.get("/Users/{Username}/{Password}"),
+    rest_1.post("/Users/{Username}/{Password}"),
     __param(0, rest_1.param.path.string("Username")),
     __param(1, rest_1.param.path.string("Password")),
     __metadata("design:type", Function),

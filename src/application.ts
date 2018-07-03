@@ -32,7 +32,12 @@ export class GoldenThreadApiApplication extends BootMixin(RepositoryMixin(RestAp
     };
     var dataSourceConfig = new juggler.DataSource({
       name: "db",
-      connector: 'memory'
+      connector: 'loopback-connector-mysql',
+      host: 'localhost',
+      port: 3306,
+      database: 'day_7',
+      user: 'root',
+      password: ''
     });
     this.dataSource(dataSourceConfig);
 
